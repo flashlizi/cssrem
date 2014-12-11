@@ -23,11 +23,10 @@ class CssRemCommand(sublime_plugin.EventListener):
     def on_text_command(self, view, name, args):
         if name == 'commit_completion':
             view.run_command('replace_rem')
-            # pass
         return None
 
     def on_query_completions(self, view, prefix, locations):
-        print('cssrem start {0}, {1}'.format(prefix, locations))
+        # print('cssrem start {0}, {1}'.format(prefix, locations))
 
         # only works on specific file types
         fileName, fileExtension = os.path.splitext(view.file_name())
