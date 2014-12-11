@@ -1,7 +1,7 @@
 CSSREM
 -------------
 
-一个CSS值转rem值的自动完成的Sublime Text插件。
+一个CSS的px值转rem值的Sublime Text自动完成插件。
 
 插件效果如下：
 
