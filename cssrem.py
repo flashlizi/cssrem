@@ -8,7 +8,11 @@ SETTINGS = {}
 lastCompletion = {"needFix": False, "value": None, "region": None}
 
 def plugin_loaded():
+    init_settings()
+
+def init_settings():
     get_settings()
+    sublime.load_settings('cssrem.sublime-settings').add_on_change('get_settings', get_settings)
 
 def get_settings():
     settings = sublime.load_settings('cssrem.sublime-settings')
@@ -30,7 +34,7 @@ class CssRemCommand(sublime_plugin.EventListener):
 
         # only works on specific file types
         fileName, fileExtension = os.path.splitext(view.file_name())
-        if not fileExtension.lower() in SETTINGS['available_file_types']:
+        if not fileExtension.lower() in get_setting(view, 'available_file_types'):
             return []
 
         # reset completion match
@@ -59,14 +63,14 @@ class CssRemCommand(sublime_plugin.EventListener):
             else:
                 start = location
 
-            remValue = round(float(value) / SETTINGS['px_to_rem'], SETTINGS['max_rem_fraction_length'])
+            remValue = round(float(value) / get_setting(view, 'px_to_rem'), get_setting(view, 'max_rem_fraction_length'))
 
             # save them for replace fix
             lastCompletion["value"] = str(remValue) + 'rem'
             lastCompletion["region"] = sublime.Region(start, location)
 
             # set completion snippet
-            snippets += [(value + 'px ->rem(' + str(SETTINGS['px_to_rem']) + ')', str(remValue) + 'rem')]
+            snippets += [(value + 'px ->rem(' + str(get_setting(view, 'px_to_rem')) + ')', str(remValue) + 'rem')]
 
         # print("cssrem: {0}".format(snippets))
         return snippets
