@@ -43,7 +43,7 @@ class CssRemCommand(sublime_plugin.EventListener):
         snippets = []
 
         # get rem match
-        match = checkRemMatched(prefix)
+        match = re.compile("([\d.]+)p(x)?").match(prefix)
         if match:
             lineLocation = view.line(location)
             line = view.substr(sublime.Region(lineLocation.a, location))
@@ -74,11 +74,6 @@ class CssRemCommand(sublime_plugin.EventListener):
 
         # print("cssrem: {0}".format(snippets))
         return snippets
-
-def checkRemMatch(prefix):
-    regexp = re.compile("([\d.]+)p(x)?")
-    match = regexp.match(prefix)
-    return match
 
 class ReplaceRemCommand(sublime_plugin.TextCommand):
     def run(self, edit):
